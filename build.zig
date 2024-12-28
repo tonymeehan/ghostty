@@ -1236,6 +1236,17 @@ fn addDeps(
     step.addCSourceFiles(.{ .files = &.{"src/stb/stb.c"} });
     if (step.rootModuleTarget().os.tag == .linux) {
         step.addIncludePath(b.path("src/apprt/gtk"));
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/include/gtk-4.0" });
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/include/glib-2.0" });
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/lib/x86_64-linux-gnu/glib-2.0/include" });
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/include/cairo" });
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/include/pango-1.0" });
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/include/gdk-pixbuf-2.0" });
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/include/graphene-1.0" });
+        step.addIncludePath(std.Build.LazyPath { .cwd_relative = "/usr/lib/x86_64-linux-gnu/graphene-1.0/include" });
+        step.linkSystemLibrary2("glib-2.0", dynamic_link_opts);
+        step.linkSystemLibrary2("gobject-2.0", dynamic_link_opts);
+        step.linkSystemLibrary2("gio-2.0", dynamic_link_opts);
     }
 
     // C++ files
@@ -1378,7 +1389,8 @@ fn addDeps(
             },
 
             .gtk => {
-                step.linkSystemLibrary2("gtk4", dynamic_link_opts);
+                step.linkSystemLibrary2("gtk-4", dynamic_link_opts);
+
                 if (config.adwaita) step.linkSystemLibrary2("adwaita-1", dynamic_link_opts);
 
                 {
