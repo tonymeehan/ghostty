@@ -1375,9 +1375,7 @@ fn addDeps(
 
         // When we're targeting flatpak we ALWAYS link GTK so we
         // get access to glib for dbus.
-        if (config.flatpak) {
-          step.linkSystemLibrary2("gtk", dynamic_link_opts);
-        }
+        if (config.flatpak) step.linkSystemLibrary2("gtk4", dynamic_link_opts);
 
         switch (config.app_runtime) {
             .none => {},
